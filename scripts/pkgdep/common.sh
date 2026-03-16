@@ -271,7 +271,8 @@ install_astyle() {
 }
 
 if [[ $INSTALL_DEV_TOOLS == true ]]; then
-	install_astyle
+    # Not supported in p10
+	# install_astyle
 	install_shfmt
 	install_spdk_bash_completion
 	if [[ $ID != centos && $ID != rocky && $ID != sles ]]; then
