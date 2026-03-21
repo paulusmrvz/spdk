@@ -20,3 +20,5 @@ clean:
 
 mock-generate:
 	$(Q)mockery --name=IClient --dir client --output mocks --with-expecter --boilerplate-file mocks/boilerplate.txt
+
+install:

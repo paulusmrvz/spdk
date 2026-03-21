@@ -12,9 +12,9 @@ echo "Here's altlinux installing."
 
 apt-get update
 
-apt-get install -y gcc gcc-c++ make CUnit-devel libaio-devel libssl-devel openssl-devel libjson-c-devel libcmocka-devel libuuid-devel libiscsi-devel \
+apt-get install -y wget gcc gcc-c++ make CUnit-devel libaio-devel libssl-devel openssl-devel libjson-c-devel libcmocka-devel libuuid-devel libiscsi-devel \
     libkeyutils-devel libncurses-devel libncursesw-devel python python-dev python3 pip python3-dev unzip libfuse3-devel patchelf \
-    curl procps pkgconf python3-module-pip # python3-pip python3-venv
+    curl procps pkgconf python3-module-pip meson elfutils-devel libdw-devel # python3-pip python3-venv
 
 virtdir=${PIP_VIRTDIR:-/var/spdk/dependencies/pip}
 python3 -m venv --system-site-packages "$virtdir"
@@ -22,16 +22,20 @@ source "$virtdir/bin/activate"
 python -m pip install -U "pip<26" setuptools wheel pip-tools
 pip-compile --extra dev --strip-extras -o "$rootdir/scripts/pkgdep/requirements.txt" "${rootdir}/python/pyproject.toml"
 pip3 install -r "$rootdir/scripts/pkgdep/requirements.txt"
+pip3 install uv
 
 pkgdep_toolpath meson "${virtdir}/bin"
 
 apt-get install -y python3-module-configshell-fb python3-module-pexpect python-module-jinja2
+apt-get install -y python3-module-jinja2 python3-module-grpcio-tools
 apt-get install -y python3-module-tabulate
 apt-get install -y nasm libnuma-devel
 apt-get install -y autoconf automake libtool help2man
 
-# Programmable system-wide instrumentation system available only in p11 altlinux
-# apt-get install -y systemtap
+if [[ -n "$(rpm -qa systemtap-sdt-devel)" ]]; then
+    wget -P /usr/src/ http://ftp.altlinux.org/pub/distributions/ALTLinux/p11/branch/files/x86_64/RPMS/systemtap-sdt-devel-4.7-alt1.x86_64.rpm
+    rpm -ivh /usr/src/systemtap-sdt-devel-4.7-alt1.x86_64.rpm
+fi
 
 if [[ $INSTALL_DEV_TOOLS == "true" ]]; then
     # Tools for developers

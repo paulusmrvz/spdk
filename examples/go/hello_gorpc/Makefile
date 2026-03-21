@@ -15,3 +15,5 @@ all:
 
 clean:
 	$(Q)rm -rf $(SPDK_ROOT_DIR)/build/examples/hello_gorpc
+
+install:

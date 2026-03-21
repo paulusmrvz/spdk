@@ -231,8 +231,13 @@ install_golang() {
 		echo "go install failed"
 		return 1
 	fi
+
 	export PATH=${godir}/bin:$PATH
+    echo "PATH=${godir}/bin:$PATH" >>/root/.bashrc
+
 	export GOBIN=${godir}/bin
+    echo "GOBIN=${godir}/bin" >>/root/.bashrc
+
 	pkgdep_toolpath go "${godir}/bin"
 }
 
