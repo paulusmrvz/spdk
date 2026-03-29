@@ -32,7 +32,7 @@ apt-get install -y python3-module-tabulate
 apt-get install -y nasm libnuma-devel
 apt-get install -y autoconf automake libtool help2man
 
-if [[ -n "$(rpm -qa systemtap-sdt-devel)" ]]; then
+if [[ -z "$(rpm -qa systemtap-sdt-devel)" ]]; then
     wget -P /usr/src/ http://ftp.altlinux.org/pub/distributions/ALTLinux/p11/branch/files/x86_64/RPMS/systemtap-sdt-devel-4.7-alt1.x86_64.rpm
     rpm -ivh /usr/src/systemtap-sdt-devel-4.7-alt1.x86_64.rpm
 fi
